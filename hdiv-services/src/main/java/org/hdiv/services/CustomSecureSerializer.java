@@ -22,6 +22,9 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hdiv.filter.ValidatorHelperRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 
 import com.fasterxml.jackson.annotation.JsonFormat.Value;
@@ -50,6 +53,8 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  * 
  */
 public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(CustomSecureSerializer.class);
 
 	private JsonSerializer<Object> delegatedSerializer;
 
@@ -67,76 +72,75 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 	@Override
 	public final void serialize(final Object object, final JsonGenerator jgen, final SerializerProvider provider)
 			throws IOException, JsonProcessingException {
+		try {
+			jsonGen = jgen;
+			jsonProvider = provider;
 
-		jsonGen = jgen;
-		jsonProvider = provider;
+			boolean flushEnabled = jsonGen.isEnabled(Feature.FLUSH_PASSED_TO_STREAM);
 
-		boolean flushEnabled = jsonGen.isEnabled(Feature.FLUSH_PASSED_TO_STREAM);
+			jsonGen.disable(Feature.FLUSH_PASSED_TO_STREAM);
 
-		jsonGen.disable(Feature.FLUSH_PASSED_TO_STREAM);
+			jsonGen.writeStartObject();
 
-		jsonGen.writeStartObject();
+			if (delegatedSerializer != null) {
+				String secureIdName = null;
+				Object value = null;
+				if (object instanceof SecureIdentifiable<?>) {
+					if (delegatedSerializer instanceof ContextualSerializer) {
+						secureIdName = "id";
+						value = ((SecureIdentifiable) object).getId();
 
-		if (delegatedSerializer != null) {
-			String secureIdName = null;
-			Object value = null;
-			if (object instanceof SecureIdentifiable<?>) {
-				if (delegatedSerializer instanceof ContextualSerializer) {
-					secureIdName = "id";
-					value = ((SecureIdentifiable) object).getId();
-
-					try {
-						Field identifiableField = getIdentityField(object);
-						JsonSerializer<Object> efective = (JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
-								.createContextual(provider, getBeanProperty(secureIdName, value, null,
-										identifiableField != null ? identifiableField.getType() : null));
-						secureIdSerializer.put(secureIdName, efective);
-						if (jsonGen.getCurrentValue() == null) {
-							jsonGen.setCurrentValue(object);
+						try {
+							Field identifiableField = getIdentityField(object);
+							JsonSerializer<Object> efective = (JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
+									.createContextual(provider, getBeanProperty(secureIdName, value, null,
+											identifiableField != null ? identifiableField.getType() : null));
+							secureIdSerializer.put(secureIdName, efective);
+							if (jsonGen.getCurrentValue() == null) {
+								jsonGen.setCurrentValue(object);
+							}
+						} catch (Exception e) {
+							// Error getting id of the object. Do not make any task to preserve the original functionality
 						}
 					}
-					catch (Exception e) {
-						// Error getting id of the object. Do not make any task to preserve the original functionality
-					}
-				}
-			}
-			else if (object instanceof SecureIdContainer) {
-				for (Field field : object.getClass().getDeclaredFields()) {
-					TrustAssertion trustAssertion = field.getAnnotation(TrustAssertion.class);
-					if (trustAssertion != null) {
-						if (delegatedSerializer instanceof ContextualSerializer) {
-							try {
-								field.setAccessible(true);
-								secureIdName = field.getName();
-								value = field.get(object);
+				} else if (object instanceof SecureIdContainer) {
+					for (Field field : object.getClass().getDeclaredFields()) {
+						TrustAssertion trustAssertion = field.getAnnotation(TrustAssertion.class);
+						if (trustAssertion != null) {
+							if (delegatedSerializer instanceof ContextualSerializer) {
+								try {
+									field.setAccessible(true);
+									secureIdName = field.getName();
+									value = field.get(object);
 
-								if (delegatedSerializer instanceof ContextualSerializer) {
-									JsonSerializer<Object> efective = ((JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
-											.createContextual(provider,
-													getBeanProperty(secureIdName, value, trustAssertion, field.getType())));
-									secureIdSerializer.put(secureIdName, efective);
-									if (jsonGen.getCurrentValue() == null) {
-										jsonGen.setCurrentValue(object);
+									if (delegatedSerializer instanceof ContextualSerializer) {
+										JsonSerializer<Object> efective = ((JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
+												.createContextual(provider, getBeanProperty(secureIdName, value,
+														trustAssertion, field.getType())));
+										secureIdSerializer.put(secureIdName, efective);
+										if (jsonGen.getCurrentValue() == null) {
+											jsonGen.setCurrentValue(object);
+										}
 									}
+								} catch (Exception e) {
+									// Error getting id of the object. Do not make any task to preserve the original functionality
 								}
 							}
-							catch (Exception e) {
-								// Error getting id of the object. Do not make any task to preserve the original functionality
-							}
 						}
 					}
 				}
 			}
+
+			writeBody(object);
+
+			if (flushEnabled) {
+				jsonGen.enable(Feature.FLUSH_PASSED_TO_STREAM);
+			}
+
+			jsonGen.writeEndObject();
+		} catch (Exception e) {
+			LOGGER.error("Exception in Hdiv serializer.", e);
 		}
-
-		writeBody(object);
-
-		if (flushEnabled) {
-			jsonGen.enable(Feature.FLUSH_PASSED_TO_STREAM);
-		}
-
-		jsonGen.writeEndObject();
-
 	}
 
 	/**
