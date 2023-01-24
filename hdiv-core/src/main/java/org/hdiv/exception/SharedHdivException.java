@@ -43,7 +43,7 @@ public class SharedHdivException extends RuntimeException {
 
 	public SharedHdivException(final String message, final Throwable cause, final boolean enableSuppression,
 			final boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
