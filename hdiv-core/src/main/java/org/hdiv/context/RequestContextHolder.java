@@ -36,6 +36,9 @@ public interface RequestContextHolder {
 
 	HttpServletResponse getResponse();
 
+	/*
+	 * Spring context should be used instead (SecurityContextHolder).
+	 */
 	@Deprecated
 	HttpServletRequest getRequest();
 
