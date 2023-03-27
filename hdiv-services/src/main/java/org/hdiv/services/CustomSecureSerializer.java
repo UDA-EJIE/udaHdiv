@@ -19,10 +19,10 @@ package org.hdiv.services;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hdiv.filter.ValidatorHelperRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
@@ -94,7 +94,7 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 							Field identifiableField = getIdentityField(object);
 							JsonSerializer<Object> efective = (JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
 									.createContextual(provider, getBeanProperty(secureIdName, value, null,
-											identifiableField != null ? identifiableField.getType() : null));
+											identifiableField != null ? identifiableField.getType() : null, object.getClass().getDeclaredMethod("getId"), object.getClass().getName()));
 							secureIdSerializer.put(secureIdName, efective);
 							if (jsonGen.getCurrentValue() == null) {
 								jsonGen.setCurrentValue(object);
@@ -116,7 +116,7 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 									if (delegatedSerializer instanceof ContextualSerializer) {
 										JsonSerializer<Object> efective = ((JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
 												.createContextual(provider, getBeanProperty(secureIdName, value,
-														trustAssertion, field.getType())));
+														trustAssertion, field.getType(), null, null)));
 										secureIdSerializer.put(secureIdName, efective);
 										if (jsonGen.getCurrentValue() == null) {
 											jsonGen.setCurrentValue(object);
@@ -206,9 +206,11 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 		}
 	}
 
-	private BeanProperty getBeanProperty(final String name, final Object value, final TrustAssertion trustAssertion, final Class<?> type) {
+	private BeanProperty getBeanProperty(final String name, final Object value, final TrustAssertion trustAssertion, final Class<?> type, final Method identifiableMethod, final String className) {
 
 		return new BeanProperty() {
+			
+			PropertyMetadata metadata = PropertyMetadata.construct(true, name, 0, className);
 
 			public String getName() {
 				return name;
@@ -233,7 +235,7 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 			}
 
 			public PropertyMetadata getMetadata() {
-				return null;
+				return metadata;
 			}
 
 			public boolean isRequired() {
