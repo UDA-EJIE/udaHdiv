@@ -403,7 +403,7 @@ Value of the parameter.
         Redirects to a new URL.
     </description>
     <name>redirect</name>
-    <tag-class>org.hdiv.taglibs.standard.tag.rt.core.RedirectTagHDIV</tag-class>
+    <tag-class>com.ejie.hdiv.taglibs.standard.tag.rt.core.RedirectTagHDIV</tag-class>
     <body-content>JSP</body-content>
     <attribute>
         <description>
@@ -510,7 +510,7 @@ Scope for var.
         Creates a URL with optional query parameters.
     </description>
     <name>url</name>
-    <tag-class>org.hdiv.taglibs.standard.tag.rt.core.UrlTagHDIV</tag-class>
+    <tag-class>com.ejie.hdiv.taglibs.standard.tag.rt.core.UrlTagHDIV</tag-class>
     <body-content>JSP</body-content>
     <attribute>
         <description>

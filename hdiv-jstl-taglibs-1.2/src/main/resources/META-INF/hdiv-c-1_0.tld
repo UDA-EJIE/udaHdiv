@@ -288,7 +288,7 @@
 
   <tag>
     <name>redirect</name>
-    <tag-class>org.hdiv.taglibs.standard.tag.el.core.RedirectTagHDIV</tag-class>
+    <tag-class>com.ejie.hdiv.taglibs.standard.tag.el.core.RedirectTagHDIV</tag-class>
     <body-content>JSP</body-content>
     <description>
 	Redirects to a new URL.
@@ -370,7 +370,7 @@
 
   <tag>
     <name>url</name>
-    <tag-class>org.hdiv.taglibs.standard.tag.el.core.UrlTagHDIV</tag-class>
+    <tag-class>com.ejie.hdiv.taglibs.standard.tag.el.core.UrlTagHDIV</tag-class>
     <body-content>JSP</body-content>
     <description>
 	Prints or exposes a URL with optional query parameters

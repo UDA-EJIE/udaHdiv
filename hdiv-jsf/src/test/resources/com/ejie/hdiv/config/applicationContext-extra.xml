@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="defaultComponentTreeValidator" class="com.ejie.hdiv.validation.DefaultComponentTreeValidator">
+		<property name="config" ref="config" />
+	</bean>
+
+	<bean id="redirectHelper" class="com.ejie.hdiv.context.RedirectHelper">
+		<property name="linkUrlProcessor" ref="linkUrlProcessor" />
+	</bean>
+
+	<bean id="validatorHelper" class="com.ejie.hdiv.filter.JsfValidatorHelper"
+		init-method="init">
+		<property name="stateUtil" ref="stateUtil" />
+		<property name="hdivConfig" ref="config" />
+		<property name="session" ref="sessionHDIV" />
+		<property name="dataValidator" ref="dataValidator" />
+		<property name="dataComposerFactory" ref="dataComposerFactory" />
+		<property name="urlProcessor" ref="basicUrlProcessor" />
+	</bean>
+
+	<!-- ComponentProcessor -->
+	<bean id="outcomeTargetComponentProcessor"
+		class="com.ejie.hdiv.components.support.OutcomeTargetComponentProcessor">
+		<property name="config" ref="config" />
+		<property name="linkUrlProcessor" ref="linkUrlProcessor" />
+	</bean>
+
+	<bean id="outputLinkComponentProcessor"
+		class="com.ejie.hdiv.components.support.OutputLinkComponentProcessor">
+		<property name="config" ref="config" />
+		<property name="linkUrlProcessor" ref="linkUrlProcessor" />
+	</bean>
+
+</beans>

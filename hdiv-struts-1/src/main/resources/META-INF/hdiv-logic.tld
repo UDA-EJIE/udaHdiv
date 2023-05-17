@@ -250,7 +250,7 @@
     </tag>
     <tag>
         <name>forward</name>
-        <tag-class>org.hdiv.taglib.logic.ForwardTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.logic.ForwardTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -1601,7 +1601,7 @@
     </tag>
     <tag>
         <name>redirect</name>
-        <tag-class>org.hdiv.taglib.logic.RedirectTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.logic.RedirectTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Render an HTTP Redirect</strong></p>
