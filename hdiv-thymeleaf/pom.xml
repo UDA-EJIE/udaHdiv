@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
+		<groupId>com.ejie.hdiv</groupId>
 		<artifactId>hdiv</artifactId>
-		<groupId>org.hdiv</groupId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>5.0.0-RELEASE</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>hdiv-thymeleaf</artifactId>
@@ -20,12 +20,12 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-spring-mvc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -60,7 +60,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-core</artifactId>
 			<version>${project.version}</version>
 			<type>test-jar</type>

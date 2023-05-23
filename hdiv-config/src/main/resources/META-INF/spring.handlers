@@ -1,1 +1,1 @@
-http\://www.hdiv.org/schema/hdiv=org.hdiv.config.xml.HdivNamespaceHandler
+http\://www.hdiv.org/schema/hdiv=com.ejie.hdiv.config.xml.HdivNamespaceHandler

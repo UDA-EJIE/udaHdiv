@@ -1,0 +1,108 @@
+/**
+ * Copyright 2005-2016 hdiv.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * 	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.ejie.hdiv.web.validator;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.ejie.hdiv.AbstractHDIVTestCase;
+import com.ejie.hdiv.context.RequestContext;
+import com.ejie.hdiv.dataComposer.DataComposerFactory;
+import com.ejie.hdiv.dataComposer.IDataComposer;
+import com.ejie.hdiv.filter.IValidationHelper;
+import com.ejie.hdiv.filter.RequestWrapper;
+import com.ejie.hdiv.filter.ValidationContextImpl;
+import com.ejie.hdiv.filter.ValidatorError;
+import com.ejie.hdiv.filter.ValidatorHelperResult;
+import com.ejie.hdiv.util.Constants;
+import com.ejie.hdiv.util.Method;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+public class EditableParameterValidatorTest extends AbstractHDIVTestCase {
+
+	private IValidationHelper helper;
+
+	private IDataComposer dataComposer;
+
+	private String hdivParameter;
+
+	private final String targetName = "/path/testAction.do";;
+
+	@Override
+	protected void onSetUp() throws Exception {
+
+		hdivParameter = getConfig().getStateParameterName();
+		helper = getApplicationContext().getBean(IValidationHelper.class);
+
+		DataComposerFactory dataComposerFactory = (DataComposerFactory) getApplicationContext().getBean("dataComposerFactory");
+		dataComposer = dataComposerFactory.newInstance(getRequestContext());
+		dataComposer.startPage();
+	}
+
+	public void testEditableValidator() {
+
+		MockHttpServletRequest request = getMockRequest();
+		HttpSession httpSession = request.getSession();
+		ServletContext servletContext = httpSession.getServletContext();
+		request.setMethod("POST");
+
+		dataComposer.beginRequest(Method.POST, targetName);
+		dataComposer.compose("paramName", "", true, "text");
+
+		String pageState = dataComposer.endRequest();
+		dataComposer.endPage();
+
+		request.addParameter(hdivParameter, pageState);
+		request.addParameter("paramName", "<script>storeCookie()</script>");
+
+		RequestContext context = new RequestContext(request, getMockResponse(), servletContext);
+		context.setHdivParameterName(hdivParameter);
+		HttpServletRequest requestWrapper = new RequestWrapper(context);
+		ValidatorHelperResult result = helper.validate(new ValidationContextImpl(context, helper, false));
+		assertFalse(result.isValid());
+
+		// Editable errors in request?
+		List<ValidatorError> validationErrors = result.getErrors();
+		requestWrapper.setAttribute(Constants.EDITABLE_PARAMETER_ERROR, validationErrors);
+		assertEquals(1, validationErrors.size());
+
+		// Set request attributes on threadlocal
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(requestWrapper));
+
+		// New Editable instance
+		EditableParameterValidator validator = new EditableParameterValidator();
+		Errors errors = new MapBindingResult(new HashMap<String, String>(), "");
+		assertFalse(errors.hasErrors());
+
+		// move errors to Errors instance
+		validator.validate("anyObject", errors);
+		assertTrue(errors.hasErrors());
+
+		ObjectError err = errors.getAllErrors().get(0);
+		assertEquals("&lt;script&gt;storeCookie(... has not allowed characters", err.getDefaultMessage());
+		assertEquals("hdiv.editable.error", err.getCode());
+	}
+
+}

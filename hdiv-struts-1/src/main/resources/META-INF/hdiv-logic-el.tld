@@ -108,7 +108,7 @@
     </description>
     <tag>
         <name>forward</name>
-        <tag-class>org.hdiv.strutsel.taglib.logic.ELForwardTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.logic.ELForwardTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -909,7 +909,7 @@
     </tag>
     <tag>
         <name>redirect</name>
-        <tag-class>org.hdiv.strutsel.taglib.logic.ELRedirectTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.logic.ELRedirectTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Render an HTTP Redirect</strong></p>

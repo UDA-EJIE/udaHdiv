@@ -40,7 +40,7 @@
         org.apache.struts.action.EXCEPTION.</description>
     <tag>
         <name>base</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELBaseTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELBaseTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -96,7 +96,7 @@
     </tag>
     <tag>
         <name>button</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELButtonTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELButtonTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -412,7 +412,7 @@
     </tag>
     <tag>
         <name>cancel</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELCancelTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELCancelTagHDIV</tag-class>
         <description>
             <![CDATA[
           <p><strong>Render a Cancel Button</strong></p>
@@ -718,7 +718,7 @@
     </tag>
     <tag>
         <name>checkbox</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELCheckboxTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELCheckboxTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -1277,7 +1277,7 @@
     </tag>
     <tag>
         <name>file</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELFileTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELFileTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -1740,7 +1740,7 @@
     </tag>
     <tag>
         <name>form</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELFormTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELFormTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -1971,7 +1971,7 @@
     </tag>
     <tag>
         <name>frame</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELFrameTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELFrameTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -2423,7 +2423,7 @@
     </tag>
     <tag>
         <name>hidden</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELHiddenTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELHiddenTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -4007,7 +4007,7 @@
     </tag>
     <tag>
         <name>link</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELLinkTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELLinkTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -4727,7 +4727,7 @@
     </tag>
     <tag>
         <name>multibox</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELMultiboxTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELMultiboxTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -5116,7 +5116,7 @@
     </tag>
     <tag>
         <name>option</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELOptionTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELOptionTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -5252,7 +5252,7 @@
     </tag>
     <tag>
         <name>options</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELOptionsTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELOptionsTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -5426,7 +5426,7 @@
     </tag>
     <tag>
         <name>optionsCollection</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELOptionsCollectionTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELOptionsCollectionTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -5568,7 +5568,7 @@
     </tag>
     <tag>
         <name>password</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELPasswordTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELPasswordTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -6019,7 +6019,7 @@
     </tag>
     <tag>
         <name>radio</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELRadioTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELRadioTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -6738,7 +6738,7 @@
     </tag>
     <tag>
         <name>rewrite</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELRewriteTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELRewriteTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -6982,7 +6982,7 @@
     </tag>
     <tag>
         <name>select</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELSelectTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELSelectTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -7419,7 +7419,7 @@
     </tag>
     <tag>
         <name>submit</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELSubmitTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELSubmitTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -7727,7 +7727,7 @@
     </tag>
     <tag>
         <name>text</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELTextTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELTextTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>
@@ -8168,7 +8168,7 @@
     </tag>
     <tag>
         <name>textarea</name>
-        <tag-class>org.hdiv.strutsel.taglib.html.ELTextareaTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.strutsel.taglib.html.ELTextareaTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>

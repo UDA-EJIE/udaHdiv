@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- State token id generator -->
+	<bean id="uidGenerator" class="com.ejie.hdiv.idGenerator.RandomGuidUidGenerator" />
+	
+	<!-- Page id generator -->
+	<bean id="pageIdGenerator" class="com.ejie.hdiv.idGenerator.SequentialPageIdGenerator"
+		scope="prototype" />
+
+	<!--LOGGER -->
+	<bean id="userData" class="com.ejie.hdiv.logs.UserData" />
+	<bean id="logger" class="com.ejie.hdiv.logs.Logger" />
+
+	<bean id="cache" class="com.ejie.hdiv.session.StateCache" scope="prototype">
+		<property name="maxSize">
+			<value>5</value>
+		</property>
+	</bean>
+
+	<!--CONTEXT BEANS -->
+	<bean id="sessionHDIV" class="com.ejie.hdiv.session.SessionHDIV">
+	</bean>
+
+	<bean id="application" class="com.ejie.hdiv.application.ApplicationHDIV" />
+
+
+	<bean id="stateUtil" class="com.ejie.hdiv.state.StateUtil" init-method="init">
+		<property name="config" ref="config" />
+		<property name="session" ref="sessionHDIV" />
+		<property name="stateScopeManager" ref="stateScopeManager" />
+	</bean>
+
+	<!-- DATAVALIDATOR -->
+	<bean id="results" class="com.ejie.hdiv.dataValidator.ValidationResult" />
+
+	<bean id="dataValidator" class="com.ejie.hdiv.dataValidator.DataValidator">
+		<property name="config" ref="config" />
+	</bean>
+
+	<!-- DATACOMPOSERS -->
+
+	<bean id="dataComposerFactory" class="com.ejie.hdiv.dataComposer.DataComposerFactory">
+		<property name="config" ref="config" />
+		<property name="session" ref="sessionHDIV" />
+		<property name="uidGenerator" ref="uidGenerator" />
+		<property name="stateUtil" ref="stateUtil" />
+		<property name="stateScopeManager" ref="stateScopeManager" />
+	</bean>
+
+	<!-- Initializers -->
+	<bean id="contextFactory" class="com.ejie.hdiv.context.RequestContextFactoryImpl">
+	</bean>
+	<bean id="requestInitializer" class="com.ejie.hdiv.init.DefaultRequestInitializer">
+		<property name="config" ref="config" />
+		<property name="session" ref="sessionHDIV" />
+	</bean>
+	<bean id="servletContextInitializer" class="com.ejie.hdiv.init.DefaultServletContextInitializer">
+		<property name="config" ref="config" />
+		<property name="application" ref="application" />
+		<property name="linkUrlProcessor" ref="linkUrlProcessor" />
+		<property name="formUrlProcessor" ref="formUrlProcessor" />
+	</bean>
+	<bean id="sessionInitializer" class="com.ejie.hdiv.init.DefaultSessionInitializer">
+		<property name="config" ref="config" />
+	</bean>
+	<bean id="validatorHelper" class="com.ejie.hdiv.filter.ValidatorHelperRequest"
+		init-method="init">
+		<property name="stateUtil" ref="stateUtil" />
+		<property name="hdivConfig" ref="config" />
+		<property name="session" ref="sessionHDIV" />
+		<property name="dataValidator" ref="dataValidator" />
+		<property name="dataComposerFactory" ref="dataComposerFactory" />
+		<property name="urlProcessor" ref="basicUrlProcessor" />
+		<property name="stateScopeManager" ref="stateScopeManager" />
+	</bean>
+
+	<bean id="validatorErrorHandler" class="com.ejie.hdiv.filter.DefaultValidatorErrorHandler">
+		<property name="config" ref="config" />
+	</bean>
+
+	<!-- URL PROCESSOR -->
+	<bean id="linkUrlProcessor" class="com.ejie.hdiv.urlProcessor.LinkUrlProcessor">
+		<property name="config" ref="config" />
+	</bean>
+
+	<bean id="formUrlProcessor" class="com.ejie.hdiv.urlProcessor.FormUrlProcessor">
+		<property name="config" ref="config" />
+	</bean>
+
+	<bean id="basicUrlProcessor" class="com.ejie.hdiv.urlProcessor.BasicUrlProcessor">
+		<property name="config" ref="config" />
+	</bean>
+
+	<bean id="validationContextFactory" class="com.ejie.hdiv.filter.DefaultValidationContextFactory" />
+
+	<!-- RegExp executor -->
+	<bean id="patternMatcherFactory" class="com.ejie.hdiv.regex.PatternMatcherFactory" />
+
+	<!-- Scope beans -->
+	<bean id="stateScopeManager" class="com.ejie.hdiv.state.scope.DefaultStateScopeManager">
+		<constructor-arg>
+			<list>
+				<ref bean="userSessionStateScope" />
+				<ref bean="appStateScope" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="userSessionStateScope" class="com.ejie.hdiv.state.scope.UserSessionStateScope">
+		<property name="session" ref="sessionHDIV" />
+	</bean>
+	<bean id="appStateScope" class="com.ejie.hdiv.state.scope.AppStateScope" />
+
+</beans>

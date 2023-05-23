@@ -34,7 +34,7 @@
    </description>
    <tag>
       <name>insert</name>
-      <tag-class>org.hdiv.tiles.taglib.InsertTagHDIV</tag-class>
+      <tag-class>com.ejie.hdiv.tiles.taglib.InsertTagHDIV</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[

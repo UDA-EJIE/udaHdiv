@@ -508,7 +508,7 @@
     </tag>
     <tag>
         <name>checkbox</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedCheckboxTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedCheckboxTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension - Render A Checkbox Input Field</strong></p>
@@ -853,7 +853,7 @@
     </tag>
     <tag>
         <name>file</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedFileTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedFileTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension -
@@ -1131,7 +1131,7 @@
     </tag>
     <tag>
         <name>form</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedFormTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedFormTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -1274,7 +1274,7 @@
     </tag>
     <tag>
         <name>hidden</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedHiddenTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedHiddenTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension -
@@ -1888,7 +1888,7 @@
     </tag>
     <tag>
         <name>link</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedLinkTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedLinkTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -2238,7 +2238,7 @@
     </tag>
     <tag>
         <name>multibox</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedMultiboxTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedMultiboxTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension -
@@ -2467,7 +2467,7 @@
     </tag>
     <tag>
         <name>options</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedOptionsTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedOptionsTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -2557,7 +2557,7 @@
     </tag>
     <tag>
         <name>optionsCollection</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedOptionsCollectionTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedOptionsCollectionTagHDIV</tag-class>
         <body-content>empty</body-content>
         <description>
             <![CDATA[
@@ -2619,7 +2619,7 @@
     </tag>
     <tag>
         <name>password</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedPasswordTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedPasswordTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension -
@@ -2905,7 +2905,7 @@
     </tag>
     <tag>
         <name>radio</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedRadioTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedRadioTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension -
@@ -3147,7 +3147,7 @@
     </tag>
     <tag>
         <name>select</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedSelectTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedSelectTagHDIV</tag-class>
         <body-content>JSP</body-content>
         <description>
             <![CDATA[
@@ -3420,7 +3420,7 @@
     </tag>
     <tag>
         <name>submit</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedSubmitTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedSubmitTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension - Render A Submit Button</strong></p>
@@ -3628,7 +3628,7 @@
     </tag>
     <tag>
         <name>text</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedTextTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedTextTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension -
@@ -3913,7 +3913,7 @@
     </tag>
     <tag>
         <name>textarea</name>
-        <tag-class>org.hdiv.taglib.nested.html.NestedTextareaTagHDIV</tag-class>
+        <tag-class>com.ejie.hdiv.taglib.nested.html.NestedTextareaTagHDIV</tag-class>
         <description>
             <![CDATA[
             <p><strong>Nested Extension - Render A Textarea</strong></p>

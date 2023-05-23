@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<groupId>org.hdiv</groupId>
+		<groupId>com.ejie.hdiv</groupId>
 		<artifactId>hdiv</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>5.0.0-RELEASE</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>hdiv-config</artifactId>
@@ -19,7 +19,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-core</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
@@ -31,7 +31,7 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-spring-mvc</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
@@ -44,7 +44,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-struts-1</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
@@ -57,7 +57,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-jsf</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
@@ -81,7 +81,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv</groupId>
+			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-thymeleaf</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
