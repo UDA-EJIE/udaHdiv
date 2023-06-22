@@ -131,7 +131,7 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 				}
 			}
 
-			writeBody(object);
+			writeBody(object, secureIdSerializer);
 
 			if (flushEnabled) {
 				jsonGen.enable(Feature.FLUSH_PASSED_TO_STREAM);
