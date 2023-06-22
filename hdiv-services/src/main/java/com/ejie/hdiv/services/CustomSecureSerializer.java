@@ -58,8 +58,6 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 
 	private JsonSerializer<Object> delegatedSerializer;
 
-	private final Map<String, JsonSerializer<Object>> secureIdSerializer = new HashMap<String, JsonSerializer<Object>>();
-
 	private JsonGenerator jsonGen = null;
 
 	private SerializerProvider jsonProvider = null;
@@ -73,6 +71,8 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 	public final void serialize(final Object object, final JsonGenerator jgen, final SerializerProvider provider)
 			throws IOException, JsonProcessingException {
 		try {
+			Map<String, JsonSerializer<Object>> secureIdSerializer = new HashMap<String, JsonSerializer<Object>>();
+			
 			jsonGen = jgen;
 			jsonProvider = provider;
 
@@ -164,17 +164,18 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 		return null;
 	}
 
-	protected abstract void writeBody(final Object obj);
+	protected abstract void writeBody(final Object obj, Map<String, JsonSerializer<Object>> secureIdSerializer);
 
 	/**
 	 * Serializes the property with the name propertyName of the beanWrapper object.
 	 * @param beanWrapper Representation of the object to be serialized.
 	 * @param propertyName The name of the property. It will be used as the tag name.
 	 * @param nullValueAsBlank In case of property value is null, if nullValueAsBlank is true blank value will be written, null if false.
+	 * @param secureIdSerializer Stores the id to secure.
 	 * @throws IOException
 	 */
-	protected void writeField(final BeanWrapper beanWrapper, final String propertyName, final boolean nullValueAsBlank) throws IOException {
-		writeField(beanWrapper, propertyName, propertyName, nullValueAsBlank);
+	protected void writeField(final BeanWrapper beanWrapper, final String propertyName, final boolean nullValueAsBlank, Map<String, JsonSerializer<Object>> secureIdSerializer) throws IOException {
+		writeField(beanWrapper, propertyName, propertyName, nullValueAsBlank, secureIdSerializer);
 	}
 
 	/**
@@ -183,10 +184,11 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 	 * @param tagName The tag name of the property.
 	 * @param propertyName The name of the property.
 	 * @param nullValueAsBlank In case of property value is null, if nullValueAsBlank is true blank value will be written, null if false.
+	 * @param secureIdSerializer Stores the id to secure.
 	 * @throws IOException
 	 */
 	protected void writeField(final BeanWrapper beanWrapper, final String tagName, final String propertyName,
-			final boolean nullValueAsBlank) throws IOException {
+			final boolean nullValueAsBlank, Map<String, JsonSerializer<Object>> secureIdSerializer) throws IOException {
 
 		Object propertyValue = beanWrapper.getPropertyValue(propertyName);
 
