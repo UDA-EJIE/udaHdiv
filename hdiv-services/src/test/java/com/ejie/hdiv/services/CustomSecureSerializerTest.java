@@ -50,7 +50,7 @@ public class CustomSecureSerializerTest {
 	public void init() throws Exception {
 		serializer = new CustomSecureSerializer() {
 			@Override
-			protected void writeBody(final Object obj) {
+			protected void writeBody(final Object obj, Map<String, JsonSerializer<Object>> secureIdSerializer) {
 				BeanWrapper beanWrapper = new BeanWrapperImpl(obj);
 
 				for (PropertyDescriptor prop : Arrays.asList(beanWrapper.getPropertyDescriptors())) {
@@ -63,7 +63,7 @@ public class CustomSecureSerializerTest {
 
 					if (beanWrapper.isReadableProperty(propertyName)) {
 						try {
-							writeField(beanWrapper, propertyName, false);
+							writeField(beanWrapper, propertyName, false, secureIdSerializer);
 						}
 						catch (IOException e) {
 							throw new RuntimeException();
@@ -112,7 +112,7 @@ public class CustomSecureSerializerTest {
 		verify(jsonGenerator).writeFieldName("otherAttr2");
 		verify(jsonGenerator, times(4)).writeFieldName(anyString());
 		verify(jsonGenerator, times(3)).writeObject(null);
-		verify(jsonGenerator, times(1)).writeObject(true);
+		verify(jsonGenerator, times(1)).writeObject(false);
 	}
 
 	@Test
@@ -122,7 +122,7 @@ public class CustomSecureSerializerTest {
 		verify(jsonGenerator, times(1)).writeFieldName("id");
 		verify(jsonGenerator).writeFieldName("otherAttr");
 		verify(jsonGenerator).writeFieldName("otherAttr2");
-		verify(jsonGenerator, times(1)).writeObject(true);
+		verify(jsonGenerator, times(1)).writeObject(false);
 		verify(jsonGenerator, times(1)).writeObject(1L);
 		verify(jsonGenerator).writeObject("testValue1");
 		verify(jsonGenerator).writeObject("testValue2");
@@ -140,7 +140,7 @@ public class CustomSecureSerializerTest {
 		verify(jsonGenerator).writeFieldName("otherAttr2");
 		verify(jsonGenerator, times(5)).writeFieldName(anyString());
 		verify(jsonGenerator, times(4)).writeObject(null);
-		verify(jsonGenerator, times(1)).writeObject(true);
+		verify(jsonGenerator, times(1)).writeObject(false);
 	}
 
 	@Test
@@ -151,7 +151,7 @@ public class CustomSecureSerializerTest {
 		verify(jsonGenerator).writeFieldName("id");
 		verify(jsonGenerator).writeFieldName("otherAttr");
 		verify(jsonGenerator).writeFieldName("otherAttr2");
-		verify(jsonGenerator, times(1)).writeObject(true);
+		verify(jsonGenerator, times(1)).writeObject(false);
 		verify(jsonGenerator, times(1)).writeObject(2L);
 		verify(jsonGenerator).writeObject(1L);
 		verify(jsonGenerator).writeObject("testValue1");
