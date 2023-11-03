@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat.Value;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
@@ -105,13 +106,36 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 					}
 				} else if (object instanceof SecureIdContainer) {
 					for (Field field : object.getClass().getDeclaredFields()) {
+						
 						TrustAssertion trustAssertion = field.getAnnotation(TrustAssertion.class);
+						if(trustAssertion == null) {
+							Field[] fields = field.getType().getDeclaredFields();
+							for (Field field2 : fields) {
+								TrustAssertion trustAssertion2 = field2.getAnnotation(TrustAssertion.class);
+								if(trustAssertion2 != null) {	//solo admite 2 niveles								
+									trustAssertion = trustAssertion2;
+									String classContains = field2.getDeclaringClass().getSimpleName();
+									Method method = field.getDeclaringClass().getMethod("get" + classContains);
+									Object obj = method.invoke(object);
+									field2.setAccessible(true);
+									value = field2.get(obj);
+									secureIdName = field.getName() + "."+ field2.getName();
+									field = field2;
+									
+									break;
+								}
+							}
+						}
 						if (trustAssertion != null) {
 							if (delegatedSerializer instanceof ContextualSerializer) {
 								try {
 									field.setAccessible(true);
-									secureIdName = field.getName();
-									value = field.get(object);
+									if(secureIdName == null) {
+										secureIdName = field.getName();
+									}
+									if(value == null) {
+										value = field.get(object);
+									}
 
 									if (delegatedSerializer instanceof ContextualSerializer) {
 										JsonSerializer<Object> efective = ((JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)

@@ -159,6 +159,24 @@ public class CustomSecureSerializerTest {
 		verify(jsonGenerator, times(5)).writeFieldName(anyString());
 		verify(jsonGenerator, times(5)).writeObject(Mockito.any());
 	}
+	
+	@Test
+	public void TrustedDoubleSerializationTest() throws Exception {
+		TrustedTestBean trustedTestBean = new TrustedTestBean(5L, 6L, "testValueDouble1", "testValueDouble2");
+		serializer.serialize(new TrustedTestDoubleBean(4L, 3L, "testValue1", "testValue2",trustedTestBean), jsonGenerator, null);
+		verify(jsonGenerator, times(1)).writeFieldName("isSecure");
+		verify(jsonGenerator, times(1)).writeFieldName("codeDouble");
+		verify(jsonGenerator).writeFieldName("id");
+		verify(jsonGenerator).writeFieldName("otherAttr");
+		verify(jsonGenerator).writeFieldName("otherAttr2");
+		verify(jsonGenerator, times(1)).writeObject(false);
+		verify(jsonGenerator, times(1)).writeObject(4L);
+		verify(jsonGenerator).writeObject(3L);
+		verify(jsonGenerator).writeObject("testValue1");
+		verify(jsonGenerator).writeObject("testValue2");
+		verify(jsonGenerator, times(6)).writeFieldName(anyString());
+		verify(jsonGenerator, times(6)).writeObject(Mockito.any());
+	}
 
 	public class TestBean {
 
@@ -233,6 +251,40 @@ public class CustomSecureSerializerTest {
 
 		public void setCode(final Long code) {
 			this.code = code;
+		}
+
+	}
+	
+	public class TrustedTestDoubleBean extends TestBean implements SecureIdContainer {
+
+		@TrustAssertion(idFor = TrustedTestDoubleBean.class)
+		private Long codeDouble;
+		private TrustedTestBean trustedTestBean;
+
+		public TrustedTestBean getTrustedTestBean() {
+			return trustedTestBean;
+		}
+
+		public void setTrustedTestBean(TrustedTestBean trustedTestBean) {
+			this.trustedTestBean = trustedTestBean;
+		}
+
+		public TrustedTestDoubleBean() {
+			super();
+		}
+
+		public TrustedTestDoubleBean(final Long codeDouble, final Long id, final String otherAttr, final String otherAttr2, final TrustedTestBean trustedTestBean) {
+			super(id, otherAttr, otherAttr2);
+			this.codeDouble = codeDouble;
+			this.trustedTestBean = trustedTestBean;
+		}
+
+		public Long getCodeDouble() {
+			return codeDouble;
+		}
+
+		public void setCodeDouble(final Long codeDouble) {
+			this.codeDouble = codeDouble;
 		}
 
 	}
