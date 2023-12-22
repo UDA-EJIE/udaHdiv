@@ -109,21 +109,25 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 						
 						TrustAssertion trustAssertion = field.getAnnotation(TrustAssertion.class);
 						if(trustAssertion == null) {
-							Field[] fields = field.getType().getDeclaredFields();
-							for (Field field2 : fields) {
-								TrustAssertion trustAssertion2 = field2.getAnnotation(TrustAssertion.class);
-								if(trustAssertion2 != null) {	//solo admite 2 niveles								
-									trustAssertion = trustAssertion2;
-									String classContains = field2.getDeclaringClass().getSimpleName();
-									Method method = field.getDeclaringClass().getMethod("get" + classContains);
-									Object obj = method.invoke(object);
-									field2.setAccessible(true);
-									value = field2.get(obj);
-									secureIdName = field.getName() + "."+ field2.getName();
-									field = field2;
-									
-									break;
+							try {//mirar las subentidades
+								Field[] fields = field.getType().getDeclaredFields();
+								for (Field field2 : fields) {
+									TrustAssertion trustAssertion2 = field2.getAnnotation(TrustAssertion.class);
+									if(trustAssertion2 != null) {	//solo admite 2 niveles								
+										trustAssertion = trustAssertion2;
+										String classContains = field2.getDeclaringClass().getSimpleName();
+										Method method = field.getDeclaringClass().getMethod("get" + classContains);
+										Object obj = method.invoke(object);
+										field2.setAccessible(true);
+										value = field2.get(obj);
+										secureIdName = field.getName() + "."+ field2.getName();
+										field = field2;
+										
+										break;
+									}
 								}
+							}catch (Exception e) {
+								LOGGER.error("Exception in Hdiv serializer subentity.", e);
 							}
 						}
 						if (trustAssertion != null) {
