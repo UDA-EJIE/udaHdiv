@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ejie.hdiv</groupId>
 		<artifactId>hdiv</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.0-RELEASE</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>hdiv-thymeleaf</artifactId>

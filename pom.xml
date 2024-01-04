@@ -7,7 +7,7 @@
 	<artifactId>hdiv</artifactId>
 	<packaging>pom</packaging>
 	<name>Hdiv Community</name>
-	<version>5.0.0-RELEASE</version>
+	<version>5.1.0-RELEASE</version>
 	<url>http://www.hdiv.org</url>
 	<description>Web Application Security Framework</description>
 
@@ -143,21 +143,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>oss-staging</id>
-			<name>OSS Staging repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>true</uniqueVersion>
-			<id>oss-snapshot</id>
-			<name>OSS Snapshot repository</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<!-- Modules -->
 	<modules>
 		<module>hdiv-core</module>
@@ -259,19 +244,21 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>deploySnapshot</id>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>nexus</id>
-					<url>http://dev.hdivsecurity.com:8081/nexus/content/repositories/snapshots</url>
-				</snapshotRepository>
-				<repository>
-					<id>nexus</id>
-					<url>http://dev.hdivsecurity.com:8081/nexus/content/repositories/releases</url>
-				</repository>
-			</distributionManagement>
-		</profile>
 	</profiles>
+	
+	<distributionManagement>
+		<repository>
+			<id>in-house-app-releases</id>
+			<name>in-house-app-releases</name>
+			<layout>default</layout>
+			<url>https://bin.alm02.itbatera.euskadi.eus/repository/in-house-app-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>in-house-app-snapshots</id>
+			<name>in-house-app-snapshots</name>
+			<layout>default</layout>
+			<url>https://bin.alm02.itbatera.euskadi.eus/repository/in-house-app-snapshots/</url>
+		</snapshotRepository>		
+	</distributionManagement>
 
 </project>

@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat.Value;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
@@ -58,8 +59,6 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 
 	private JsonSerializer<Object> delegatedSerializer;
 
-	private final Map<String, JsonSerializer<Object>> secureIdSerializer = new HashMap<String, JsonSerializer<Object>>();
-
 	private JsonGenerator jsonGen = null;
 
 	private SerializerProvider jsonProvider = null;
@@ -73,6 +72,8 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 	public final void serialize(final Object object, final JsonGenerator jgen, final SerializerProvider provider)
 			throws IOException, JsonProcessingException {
 		try {
+			Map<String, JsonSerializer<Object>> secureIdSerializer = new HashMap<String, JsonSerializer<Object>>();
+			
 			jsonGen = jgen;
 			jsonProvider = provider;
 
@@ -105,13 +106,40 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 					}
 				} else if (object instanceof SecureIdContainer) {
 					for (Field field : object.getClass().getDeclaredFields()) {
+						
 						TrustAssertion trustAssertion = field.getAnnotation(TrustAssertion.class);
+						if(trustAssertion == null) {
+							try {//mirar las subentidades
+								Field[] fields = field.getType().getDeclaredFields();
+								for (Field field2 : fields) {
+									TrustAssertion trustAssertion2 = field2.getAnnotation(TrustAssertion.class);
+									if(trustAssertion2 != null) {	//solo admite 2 niveles								
+										trustAssertion = trustAssertion2;
+										String classContains = field2.getDeclaringClass().getSimpleName();
+										Method method = field.getDeclaringClass().getMethod("get" + classContains);
+										Object obj = method.invoke(object);
+										field2.setAccessible(true);
+										value = field2.get(obj);
+										secureIdName = field.getName() + "."+ field2.getName();
+										field = field2;
+										
+										break;
+									}
+								}
+							}catch (Exception e) {
+								LOGGER.error("Exception in Hdiv serializer subentity.", e);
+							}
+						}
 						if (trustAssertion != null) {
 							if (delegatedSerializer instanceof ContextualSerializer) {
 								try {
 									field.setAccessible(true);
-									secureIdName = field.getName();
-									value = field.get(object);
+									if(secureIdName == null) {
+										secureIdName = field.getName();
+									}
+									if(value == null) {
+										value = field.get(object);
+									}
 
 									if (delegatedSerializer instanceof ContextualSerializer) {
 										JsonSerializer<Object> efective = ((JsonSerializer<Object>) ((ContextualSerializer) delegatedSerializer)
@@ -131,7 +159,7 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 				}
 			}
 
-			writeBody(object);
+			writeBody(object, secureIdSerializer);
 
 			if (flushEnabled) {
 				jsonGen.enable(Feature.FLUSH_PASSED_TO_STREAM);
@@ -164,17 +192,18 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 		return null;
 	}
 
-	protected abstract void writeBody(final Object obj);
+	protected abstract void writeBody(final Object obj, Map<String, JsonSerializer<Object>> secureIdSerializer);
 
 	/**
 	 * Serializes the property with the name propertyName of the beanWrapper object.
 	 * @param beanWrapper Representation of the object to be serialized.
 	 * @param propertyName The name of the property. It will be used as the tag name.
 	 * @param nullValueAsBlank In case of property value is null, if nullValueAsBlank is true blank value will be written, null if false.
+	 * @param secureIdSerializer Stores the id to secure.
 	 * @throws IOException
 	 */
-	protected void writeField(final BeanWrapper beanWrapper, final String propertyName, final boolean nullValueAsBlank) throws IOException {
-		writeField(beanWrapper, propertyName, propertyName, nullValueAsBlank);
+	protected void writeField(final BeanWrapper beanWrapper, final String propertyName, final boolean nullValueAsBlank, Map<String, JsonSerializer<Object>> secureIdSerializer) throws IOException {
+		writeField(beanWrapper, propertyName, propertyName, nullValueAsBlank, secureIdSerializer);
 	}
 
 	/**
@@ -183,10 +212,11 @@ public abstract class CustomSecureSerializer extends JsonSerializer<Object> {
 	 * @param tagName The tag name of the property.
 	 * @param propertyName The name of the property.
 	 * @param nullValueAsBlank In case of property value is null, if nullValueAsBlank is true blank value will be written, null if false.
+	 * @param secureIdSerializer Stores the id to secure.
 	 * @throws IOException
 	 */
 	protected void writeField(final BeanWrapper beanWrapper, final String tagName, final String propertyName,
-			final boolean nullValueAsBlank) throws IOException {
+			final boolean nullValueAsBlank, Map<String, JsonSerializer<Object>> secureIdSerializer) throws IOException {
 
 		Object propertyValue = beanWrapper.getPropertyValue(propertyName);
 
