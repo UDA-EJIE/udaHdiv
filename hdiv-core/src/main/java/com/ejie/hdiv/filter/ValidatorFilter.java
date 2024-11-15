@@ -147,6 +147,11 @@ public class ValidatorFilter extends OncePerRequestFilter {
 				}
 			}
 		}
+		if(requestContextFactory == null) {
+			ServletContext servletContext = getServletContext();
+			ApplicationContext context = HDIVUtil.findWebApplicationContext(servletContext);
+			requestContextFactory = context.getBean(RequestContextFactory.class);
+		}
 	}
 
 	/**
