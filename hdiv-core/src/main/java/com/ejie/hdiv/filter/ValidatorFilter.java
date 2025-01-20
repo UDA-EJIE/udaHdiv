@@ -26,6 +26,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import com.ejie.hdiv.config.HDIVConfig;
 import com.ejie.hdiv.config.multipart.IMultipartConfig;
 import com.ejie.hdiv.config.multipart.exception.HdivMultipartException;
@@ -38,9 +42,6 @@ import com.ejie.hdiv.logs.IUserData;
 import com.ejie.hdiv.logs.Logger;
 import com.ejie.hdiv.util.Constants;
 import com.ejie.hdiv.util.HDIVUtil;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * An unique filter exists within HDIV. This filter has two responsibilities: initialize and validate. In fact, the actual validation is not
@@ -102,7 +103,7 @@ public class ValidatorFilter extends OncePerRequestFilter {
 	/**
 	 * Initialize required dependencies.
 	 */
-	private void initDependencies(final HttpServletRequest request) {
+	protected void initDependencies(final HttpServletRequest request) {
 		if (validationContextFactory == null) {
 			synchronized (this) {
 				if (hdivConfig == null) {
